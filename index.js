@@ -17,6 +17,9 @@ app.use(cors());
 app.use(logger)
 app.use(morgan('dev'))
 
+//this will allow to add in req.body
+app.use(express.json())
+
 //DB Connection
 connectDatabase();
 
