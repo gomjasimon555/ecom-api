@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongooseSchema = mongoose.Schema({
+const productSchema = mongoose.Schema({
     title : {
         type : String,
         required:[true ,"Title field is required"],
@@ -28,5 +28,5 @@ const mongooseSchema = mongoose.Schema({
     }
 })
 
-const ProductModel = mongoose.model('Product',mongooseSchema);
+const ProductModel = mongoose.model('Product',productSchema);
 module.exports=ProductModel;

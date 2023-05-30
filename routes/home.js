@@ -1,9 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
-const {home} = require("../controllers/users");
 
-router.get("/", home);
+router.get("/", (req, res) => {
+    res.send("Welcome")
+});
 
 
 
