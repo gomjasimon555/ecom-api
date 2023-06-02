@@ -1,0 +1,123 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.navbar{
+    display:flex;
+    justify-content: space-between;
+    /* top-bottom =0, left-right=5% */
+  padding:0 5%;
+    height: 10vh;
+    align-items: center;
+}
+
+.logo{
+font-size: 30px;
+font-weight: bold;
+color:purple;
+}
+
+.nav-right{
+    display:flex;
+    gap: 20px;
+}
+
+.nav-links{
+    display:flex;
+    gap:20px;
+}
+
+.nav-link{
+    text-decoration: none;
+    color:black;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+.nav-link:hover{
+    color:purple;
+}
+
+.nav-button{
+    border:none;
+    background-color: initial;
+    font-size: 18px;
+    text-transform: uppercase;
+    color:purple;
+    font-weight: bold;
+    cursor: pointer;
+    padding-top: 4px;
+}
+
+.hero{
+    height: 90vh;
+    background-image: url('https://t4.ftcdn.net/jpg/04/44/91/89/360_F_444918960_3UfJsxKqmwAZzWky7nqCY2EF0GRQQEVt.jpg');
+    background-size: cover;
+    background-position: bottom;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}    
+
+.hero-title{
+    color:white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.hero-subtitle{
+    color:white;
+    font-size: 60px;
+    font-weight: bold;
+}
+.hero-button{
+border:none;
+background-color: purple;
+color:white;
+font-size: 20px;
+padding: 10px 20px;
+border-radius: 8px;
+margin-top: 20px;
+text-transform: uppercase;
+/* width: fit-content; */
+}
+
+.hero-text{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* 50 tala 50 daine -50% x -axes ma ghatako arko y */
+   /* position:absolute;
+   top:50%;
+   left: 50%;
+   transform: translate(-50%,-50%); */
+}
+
+
+
+
+
+@media(max-width:532px){
+   
+}
+
+@media(max-width:600px){
+   
+}
+@media(max-width:768px){
+   
+}
+@media(max-width:992px){
+    
+}
+
+@media(max-width:1200px){
+   
+}

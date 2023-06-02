@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">gomza</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Speakers</a>
+                <a href="#" class="nav-link">Pages</a>
+                <a href="#" class="nav-link">Blog</a>
+                <a href="#" class="nav-link">Contact</a>
+
+
+            </div>
+           
+                <button class="nav-button">GET TICKETS</button>
+                
+        </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div class="hero-text">
+          <div class="hero-title">20-22 January, 2023</div>
+          <div class="hero-subtitle">UX CONFERENCE 2019</div>
+          <div class="hero-button">Buy Tickets</div>
+          <button id="payment-button">Pay with Khalti</button>
+        </div>
+      </div>
+      
+      <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+      
+      <script>
+        var config = {
+          // Replace the publicKey with your own
+          publicKey: "test_public_key_91e98d9c47814e4f94ecb91ccb05310b",
+          productIdentity: "1234567890",
+          productName: "Dragon",
+          productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+          paymentPreference: [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+          ],
+          eventHandler: {
+            onSuccess(payload) {
+              // Hit merchant API for initiating verification
+              console.log(payload);
+            },
+            onError(error) {
+              console.log(error);
+            },
+            onClose() {
+              console.log('Widget is closing');
+            }
+          }
+        };
+      
+        var checkout = new KhaltiCheckout(config);
+        var btn = document.getElementById("payment-button");
+        btn.onclick = function () {
+          // Minimum transaction amount must be 10, i.e., 1000 in paisa.
+          checkout.show({ amount: 1000 });
+        }
+      
+        const paymentGateway = async (req, res) => {
+          try {
+            const payload = {
+              return_url: "https://example.com/payment/",
+              website_url: "https://example.com/",
+              amount: 1300,
+              purchase_order_id: "test12",
+              purchase_order_name: "test",
+              customer_info: {
+                name: "Ashim Upadhaya",
+                email: "example@gmail.com",
+                phone: "9811496763"
+              },
+              amount_breakdown: [
+                {
+                  label: "Mark Price",
+                  amount: 1000
+                },
+                {
+                  label: "VAT",
+                  amount: 300
+                }
+              ],
+              product_details: [
+                {
+                  identity: "1234567890",
+                  name: "Khalti logo",
+                  total_price: 1300,
+                  quantity: 1,
+                  unit_price: 1300
+                }
+              ]
+            };
+        
+            const config = {
+              headers: {
+                Authorization: `Key test_secret_key_57d0a11eeb084aceb0eb22d5cd3ad9ad`
+              },
+            };
+        
+            // Make a request to Khalti API to generate the payment URL
+            const response = await axios.post(
+              'https://a.khalti.com/api/v2/epayment/initiate',
+              payload,
+              config
+            );
+        
+            // Retrieve the payment URL from the response
+            const paymentUrl = response.data.payment_url;
+        
+            // Redirect the user to the payment URL
+            window.location.href = paymentUrl;
+          } catch (error) {
+            console.error('Payment gateway error:', error);
+            res.status(500).json({ error: 'An error occurred during payment initiation' });
+          }
+        };
+      
+        async function handlePaymentCallback(req, res) {
+          try {
+            const { amount, productId, token } = req.body; // Assuming you are receiving these parameters in the callback payload
+      
+            const config = {
+              headers: {
+                Authorization: `${API_KEY}`,
+              },
+            };
+      
+            // Verify the payment by making a request to Khalti API
+            const response = await axios.post(
+              'https://a.khalti.com/api/v2/epayment/initiate',
+              { token },
+              config
+            );
+      
+            // Check the payment status
+            const { idx, status, amount: verifiedAmount } = response.data;
+      
+            if (status === 'Success' && verifiedAmount === amount) {
+              // Payment was successful
+              // Update your database or perform any necessary actions
+      
+              res.status(200).json({ status: 'success' });
+            } else {
+              // Payment failed or amount mismatch
+              // Handle the error condition appropriately
+      
+              res.status(400).json({ status: 'error', message: 'Payment verification failed' });
+            }
+          } catch (error) {
+            console.error('Payment callback error:', error);
+            res.status(500).json({ error: 'An error occurred during payment verification' });
+          }
+        }
+      </script>
+      </body>
+      </html>
+      
